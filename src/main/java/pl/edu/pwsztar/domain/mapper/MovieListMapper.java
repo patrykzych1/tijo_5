@@ -8,9 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class MovieListMapper {
+public class MovieListMapper implements Converter<List<Movie>, List<MovieDto>>{
 
     public List<MovieDto> mapToDto(List<Movie> movies) {
+        return convert(movies);
+    }
+
+
+    @Override
+    public List<MovieDto> convert(List<Movie> movies) {
         List<MovieDto> moviesDto = new ArrayList<>();
 
         for(Movie movie: movies) {
