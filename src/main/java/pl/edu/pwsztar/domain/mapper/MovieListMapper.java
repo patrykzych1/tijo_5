@@ -6,6 +6,7 @@ import pl.edu.pwsztar.domain.entity.Movie;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class MovieListMapper implements Converter<List<Movie>, List<MovieDto>>{
@@ -17,20 +18,17 @@ public class MovieListMapper implements Converter<List<Movie>, List<MovieDto>>{
 
     @Override
     public List<MovieDto> convert(List<Movie> movies) {
-        List<MovieDto> moviesDto = new ArrayList<>();
+        return movies.stream().map(
+                movie -> {
+                    MovieDto movieDto = new MovieDto();
 
-        for(Movie movie: movies) {
-            MovieDto movieDto = new MovieDto();
+                    movieDto.setMovieId(movie.getMovieId());
+                    movieDto.setTitle(movie.getTitle());
+                    movieDto.setImage(movie.getImage());
+                    movieDto.setYear(movie.getYear());
 
-            movieDto.setMovieId(movie.getMovieId());
-            movieDto.setTitle(movie.getTitle());
-            movieDto.setImage(movie.getImage());
-            movieDto.setYear(movie.getYear());
-
-            moviesDto.add(movieDto);
-
-        }
-
-        return moviesDto;
+                    return movieDto;
+                }
+        ).collect(Collectors.toList());
     }
 }

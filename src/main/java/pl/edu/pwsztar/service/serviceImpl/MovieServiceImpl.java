@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.edu.pwsztar.Exceptions.MovieNotFoundException;
 import pl.edu.pwsztar.domain.dto.CreateMovieDto;
 import pl.edu.pwsztar.domain.dto.MovieDto;
 import pl.edu.pwsztar.domain.entity.Movie;
@@ -46,7 +47,8 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public void deleteMovie(Long movieId) {
+    public void deleteMovie(Long movieId) throws MovieNotFoundException{
+        movieRepository.findById(movieId).orElseThrow(MovieNotFoundException::new);
         movieRepository.deleteById(movieId);
     }
 }
